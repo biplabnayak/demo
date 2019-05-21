@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from '../../axios-reader';
+import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Video from '../../components/Video';
 import Message from '../../components/Message/Message';
@@ -22,42 +22,27 @@ class Reader extends Component {
     retryCount: 0    
   };
 
-  sendWithRetry = () => {
-    axios.get()
-    .then(this.successHandler).catch(this.errorHandler);
-  }
-  
-  successHandler = (res) => {
-    this.setState({ loading: false, messages: res.data, openEnvelop: true });
+  componentDidMount () {
+    axios.get('http://52.32.34.54:8080/message')
+    .then( res => {
+      console.log(res.data);
+      this.setState({ loading: false, messages: res.data, openEnvelop: true });
       setTimeout(() => {
         this.setState({
           showVideo: true,
         });
         
-      }, 10000);     
-  }
-
-  errorHandler = () => {
-    if (this.state.retryCount <= 0) {
-      this.setState({ retryCount: this.state.retryCount + 1 });
-      console.log('Retrying...');
-      this.sendWithRetry();
-    } else {
-      console.log('Retried several times but still failed');
-      this.setState({
-        messages: {message: 'Hard work always pay.... '},
-        loading: false });
-        setTimeout(() => {
-          this.setState({
-            showVideo: true,
-          });          
-        }, 10000);
-      
-    }
-  }  
-
-  componentDidMount () {
-   this.sendWithRetry();         
+      }, 10000);  
+    }).catch(err => {
+      console.log('Something went wrong');
+      this.setState({ loading: false, messages: 'Something went wrong...', openEnvelop: true });
+      setTimeout(() => {
+        this.setState({
+          showVideo: true,
+        });
+        
+      }, 10000);
+    });        
   }  
 
   onVideoEnded = () => {
@@ -77,7 +62,7 @@ class Reader extends Component {
           <div className={classes.Column}>
           <img src={BrandLogo} alt="Logo" />
           <Message checked={this.state.openEnvelop} message={this.state.messages.message}/>
-          <img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" />
+            <img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" />            
           </div>
           <div className={classes.Column}>
             {

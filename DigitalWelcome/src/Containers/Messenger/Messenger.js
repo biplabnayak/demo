@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Config from '../../demoConfig.json';
 import classes from './Messenger.css';
 
 class Messenger extends Component {
@@ -9,13 +8,10 @@ class Messenger extends Component {
   }
 
   handleSubmit = (e) => {    
-    const data = this.state.message;
-
-    const message = "{\"message\": \"" + data + "\"}" ;
-
-    axios.post(Config.api, message ,  {
+   const message = JSON.stringify(this.state.message);
+    axios.post('http://52.32.34.54:8080/message', message ,  {
       headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
       }
     })
      .then ( res => {
