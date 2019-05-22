@@ -22,6 +22,7 @@ class Reader extends Component {
     loadingBar: true,
     showVideo: false,
     showImage: true,
+    showMessage: false,
     retryCount: 0    
   };
 
@@ -48,10 +49,8 @@ class Reader extends Component {
       else {
         console.log(d);
         console.log(this);
-        this.setState({ loading: false});
-        setTimeout(() => {
-          this.setState({ loadingBar: false, messages: d });
-        }, 10000);
+        this.setState({ loading: false, messages: d});
+
         setTimeout(() => {
           this.setState({
             showVideo: true,
@@ -63,26 +62,6 @@ class Reader extends Component {
 
   componentDidMount () {
     this.runPolling();
-    /*axios.get('http://52.32.34.54:8080/message')
-    .then( res => {
-      console.log(res.data);
-      this.setState({ loading: false, messages: res.data, openEnvelop: true });
-      setTimeout(() => {
-        this.setState({
-          showVideo: true,
-        });
-        
-      }, 10000);  
-    }).catch(err => {
-      console.log('Something went wrong');
-      this.setState({ loading: false, messages: 'Something went wrong...', openEnvelop: true });
-      setTimeout(() => {
-        this.setState({
-          showVideo: true,
-        });
-        
-      }, 10000);
-    });*/
   }  
 
   onVideoLoaded = () => {
@@ -96,7 +75,20 @@ class Reader extends Component {
     setTimeout(() => {
       this.refVideo2.current.play()          
     }, 10000);
-    
+  }
+
+  onImageLoaded = () => {
+    console.log('image loaded')
+    this.setState({
+      showMessage: true
+    })
+  }
+
+  onImageLoadedError = () => {
+    console.log('image loaded error')
+    this.setState({
+      showMessage: true
+    })
   }
 
   render () {
@@ -107,7 +99,7 @@ class Reader extends Component {
         <div className={classes.Content}>      
           <div className={classes.Column}>
           <img src={BrandLogo} alt="Logo" />
-          <Message checked={this.state.openEnvelop} message={this.state.messages ? this.state.messages.message : ''}/>
+          <Message checked={this.state.openEnvelop} message={this.state.showMessage && this.state.messages ? this.state.messages.message : ''}/>
             <img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" />            
           </div>
           <div className={classes.Column}>
@@ -123,7 +115,7 @@ class Reader extends Component {
                 : <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4"} ref={this.refVideo2} />
               }                            
               </div>
-              : <img className={classes.Marvel} src={Marvels} alt="Marvels" />
+              : <img className={classes.Marvel} src={Marvels} onLoad={this.onImageLoaded} onError={this.onImageLoadedError} alt="Marvels" />
             }             
           </div>
         </div>
