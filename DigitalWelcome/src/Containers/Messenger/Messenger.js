@@ -38,7 +38,7 @@ class Messenger extends Component {
             onChange={this.handleChange}/>
 	    	</div>		  
         <div className={classes.btn_wrapper}>
-          <button className={classes.submit_btn} onClick={this.handleSubmit}>Submit</button>
+          <button className={classes.submit_btn} onClick={this.handleSubmit}>Send</button>
         </div>
 	  </div>
     )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Video from '../../components/Video';
 import Message from '../../components/Message/Message';
@@ -13,6 +13,8 @@ class Reader extends Component {
   constructor() {
     super();
     this.refVideo2 = React.createRef();
+    this.refVideo1 = React.createRef();
+    this.pollForWelcomeMessage = this.pollForWelcomeMessage.bind(this);
   }
   state = {
     messages: null,
@@ -22,8 +24,42 @@ class Reader extends Component {
     retryCount: 0    
   };
 
+  *pollForWelcomeMessage() {
+    while (true) {
+      yield fetch('http://52.32.34.54:8080/message', {
+        method: 'get'
+      }).then(function (d) {
+        const json = d.json();
+        return json;
+      });
+    }
+  }
+
+  runPolling = (generator) => {
+    if (!generator) {
+      generator = this.pollForWelcomeMessage();
+    }  
+    const p = generator.next();
+    p.value.then((d) => {
+      if (!d || d.message.length <= 0) {
+        this.runPolling(generator);
+      }
+      else {
+        console.log(d);
+        console.log(this);
+        this.setState({ loading: false, messages: d });
+        setTimeout(() => {
+          this.setState({
+            showVideo: true,
+          });
+        }, 10000);
+      }
+    });
+  }
+
   componentDidMount () {
-    axios.get('http://52.32.34.54:8080/message')
+    this.runPolling();
+    /*axios.get('http://52.32.34.54:8080/message')
     .then( res => {
       console.log(res.data);
       this.setState({ loading: false, messages: res.data, openEnvelop: true });
@@ -42,8 +78,12 @@ class Reader extends Component {
         });
         
       }, 10000);
-    });        
+    });*/
   }  
+
+  onVideoLoaded = () => {
+    this.refVideo1.current.play()   
+  }
 
   onVideoEnded = () => {
     this.setState({ showImage: false });
@@ -68,10 +108,13 @@ class Reader extends Component {
             {
             this.state.showVideo ?
               <div>
-              <Video src={"//www.w3schools.com/html/mov_bbb.mp4"} autoplay={'autoplay'} onVideoEnded={this.onVideoEnded} />
+              <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4"}
+                ref={this.refVideo1} autoplay={'autoplay'}
+                onVideoEnded={this.onVideoEnded}
+                onVideoLoaded={this.onVideoLoaded}/>
               { this.state.showImage ?
                 <img className={classes.Marvel} src={Marvels} alt="Marvels" />
-                : <Video src={"//www.w3schools.com/html/movie.mp4"} ref={this.refVideo2} />
+                : <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4"} ref={this.refVideo2} />
               }                            
               </div>
               : <img className={classes.Marvel} src={Marvels} alt="Marvels" />
