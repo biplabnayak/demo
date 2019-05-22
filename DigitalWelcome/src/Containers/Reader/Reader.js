@@ -19,6 +19,7 @@ class Reader extends Component {
   state = {
     messages: null,
     loading: true,
+    loadingBar: true,
     showVideo: false,
     showImage: true,
     retryCount: 0    
@@ -47,12 +48,15 @@ class Reader extends Component {
       else {
         console.log(d);
         console.log(this);
-        this.setState({ loading: false, messages: d });
+        this.setState({ loading: false});
+        setTimeout(() => {
+          this.setState({ loadingBar: false, messages: d });
+        }, 10000);
         setTimeout(() => {
           this.setState({
             showVideo: true,
           });
-        }, 10000);
+        }, 20000);
       }
     });
   }
@@ -82,7 +86,9 @@ class Reader extends Component {
   }  
 
   onVideoLoaded = () => {
-    this.refVideo1.current.play()   
+    setTimeout(() => {
+      this.refVideo1.current.play()  
+    }, 2000) 
   }
 
   onVideoEnded = () => {
@@ -101,7 +107,7 @@ class Reader extends Component {
         <div className={classes.Content}>      
           <div className={classes.Column}>
           <img src={BrandLogo} alt="Logo" />
-          <Message checked={this.state.openEnvelop} message={this.state.messages.message}/>
+          <Message checked={this.state.openEnvelop} message={this.state.messages ? this.state.messages.message : ''}/>
             <img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" />            
           </div>
           <div className={classes.Column}>
