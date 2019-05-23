@@ -93,7 +93,7 @@ class Reader extends Component {
             </div>
           </div>
           <div className={classes.FlexColumn}>
-            <div><img className={classes.Marvel} src={Marvels} alt="Marvels" /></div>
+            <div className={classes['Marvel-stamp']}><img className={classes.Marvel} src={Marvels} alt="Marvels" /></div>
             <div className={this.state.showVideo ? classes.ShowVideo: classes.HideVideo}>
               <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4 "}
                 autoplay={'autoplay'}

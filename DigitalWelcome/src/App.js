@@ -6,7 +6,6 @@ import Reader from './Containers/Reader/Reader';
 
 class App extends Component {
   render () {
-    console.log(this.props);
     return (
       <div>        
         <Switch>
