@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 //import axios from 'axios';
-import Spinner from '../../components/UI/Spinner/Spinner';
+//import Spinner from '../../components/UI/Spinner/Spinner';
 import Video from '../../components/Video';
-import Message from '../../components/Message/Message';
+//import Message from '../../components/Message/Message';
 import classes from './Reader.css';
 import BrandLogo from '../../assets/images/Logo.svg';
 import MumbaiPostage from '../../assets/images/BottomLeft-Stamps.svg';
@@ -19,10 +19,8 @@ class Reader extends Component {
   state = {
     messages: null,
     loading: true,
-    loadingBar: true,
     showVideo: false,
     showImage: true,
-    showMessage: false,
     retryCount: 0    
   };
 
@@ -47,85 +45,46 @@ class Reader extends Component {
         this.runPolling(generator);
       }
       else {
-        console.log(d);
-        console.log(this);
-        this.setState({ loading: false, messages: d});
-
+        this.setState({ loading: false, messages: d });
         setTimeout(() => {
           this.setState({
             showVideo: true,
           });
-        }, 20000);
+          this.refVideo1.current.play()                            
+        }, 5000);
       }
     });
   }
 
   componentDidMount () {
-    this.runPolling();
+    this.runPolling();   
   }  
 
-  onVideoLoaded = () => {
-    setTimeout(() => {
-      this.refVideo1.current.play()  
-    }, 2000) 
-  }
-
-  onVideoEnded = () => {
-    this.setState({ showImage: false });
-    setTimeout(() => {
-      this.refVideo2.current.play()          
-    }, 10000);
-  }
-
-  onImageLoaded = () => {
-    console.log('image loaded')
-    this.setState({
-      showMessage: true
-    })
-  }
-
-  onImageLoadedError = () => {
-    console.log('image loaded error')
-    this.setState({
-      showMessage: true
-    })
-  }
-
   render () {
-    // const arrow = [classes.arrow, classes.arrowFirst].join(' ');
-    let demo = null;
-    if (!this.state.loading) {
-      demo = (<div className={classes.Postcard}>
-        <div className={classes.Content}>      
-          <div className={classes.Column}>
-          <img src={BrandLogo} alt="Logo" />
-          <Message checked={this.state.openEnvelop} message={this.state.showMessage && this.state.messages ? this.state.messages.message : ''}/>
-            <img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" />            
-          </div>
-          <div className={classes.Column}>
-            {
-            this.state.showVideo ?
-              <div>
-              <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4"}
-                ref={this.refVideo1} autoplay={'autoplay'}
-                onVideoEnded={this.onVideoEnded}
-                onVideoLoaded={this.onVideoLoaded}/>
-              { this.state.showImage ?
-                <img className={classes.Marvel} src={Marvels} alt="Marvels" />
-                : <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4"} ref={this.refVideo2} />
-              }                            
-              </div>
-              : <img className={classes.Marvel} src={Marvels} onLoad={this.onImageLoaded} onError={this.onImageLoadedError} alt="Marvels" />
-            }             
-          </div>
-        </div>
-      </div>);
-    } else {
-      demo = <Spinner />;
-    }
-
     return (
-      <React.Fragment>{demo} </React.Fragment>
+      <div className={classes.Postcard}>
+        <div className={classes.Content}>
+          <div className={classes.FlexRow}>
+            <div>
+              <div><img src={BrandLogo} alt="Logo" /></div>
+              <div>{!this.state.loading ? this.state.messages.message : null}</div>
+              <div><img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" /></div>
+            </div>
+          </div>
+          <div className={classes.FlexColumn}>
+            <div><img className={classes.Marvel} src={Marvels} alt="Marvels" /></div>
+            <div>
+              {
+              this.state.showVideo ?
+                <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4 "}
+                  autoplay={'autoplay'}
+                  ref={this.refVideo1}
+                  onVideoEnded={this.onVideoEnded} />
+                : null
+              } </div>
+          </div>
+        </div>       
+      </div>
     )
   }
 }

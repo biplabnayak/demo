@@ -10,8 +10,8 @@
   resize: none;
   width: 90%;
   height: auto;
-  background-image: -moz-linear-gradient(top , transparent, transparent 49px,#E7EFF8 0px); 
-  background-image: -webkit-linear-gradient(top , transparent, transparent 49px,#E7EFF8 0);
+  background-image: -moz-linear-gradient(top , transparent, transparent 49px, #5c54dd 0px); 
+  background-image: -webkit-linear-gradient(top , transparent, transparent 49px, #5c54dd 0);
   
   -webkit-background-size:  100% 50px;
   background-size: 100% 50px;  

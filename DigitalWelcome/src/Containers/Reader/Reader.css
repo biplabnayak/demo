@@ -1,12 +1,12 @@
 .Postcard {
   position: relative;
-  margin: 0 auto;
-  width: 80%;
+  margin: 20px;
   border-radius: 8px;
    background: #000 url('http://www.letstravelsomewhere.com/wp-content/themes/letstravelsomewhere2013/images/bg-airmail-5.jpg');
   padding: 7px;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.5);
 }
+
 .Content {
   display: flex;
   position: relative;
@@ -15,14 +15,30 @@
   border: solid 1px #ccc;
   box-shadow: 1px 1px 4px rgba(0,0,0,0.4);
   padding: 10px;
+  justify-content: space-between;
 }
 
-.Column {
-  flex: 50%;
-  padding: 10px;
- /* height: -webkit-fill-available;*/
+.FlexRow {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
 }
 
+.FlexColumn {
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Content div:not([class*="flex"]) {
+  border: 1px solid transparent;
+}
+
+.Stamp {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
 .Marvel {
   height:auto;
   width: 100%;
