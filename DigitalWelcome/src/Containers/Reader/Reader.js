@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
-//import Spinner from '../../components/UI/Spinner/Spinner';
 import Video from '../../components/Video';
-//import Message from '../../components/Message/Message';
 import classes from './Reader.css';
 import BrandLogo from '../../assets/images/Logo.svg';
 import MumbaiPostage from '../../assets/images/BottomLeft-Stamps.svg';
-import Marvels from '../../assets/images/got-marvel-stamps.svg';
+import Typist from 'react-typist';
+import Marvels from '../../assets/images/Marvel.png';
 
 
 class Reader extends Component {
   constructor() {
     super();
-    this.refVideo2 = React.createRef();
     this.refVideo1 = React.createRef();
+    this.refMessage = React.createRef();
     this.pollForWelcomeMessage = this.pollForWelcomeMessage.bind(this);
   }
   state = {
@@ -46,19 +44,33 @@ class Reader extends Component {
       }
       else {
         this.setState({ loading: false, messages: d });
-        setTimeout(() => {
-          this.setState({
-            showVideo: true,
-          });
-          this.refVideo1.current.play()                            
-        }, 5000);
       }
     });
+  }
+
+  typeWriter = () => {
+    let i = 0;
+    const message = 'Hi Ram this is test'; //this.state.messages.message;
+    if (i < message.length) {
+      this.refMessage.current.innerHTML += message.charAt(i);
+      i++;
+      setTimeout(this.typeWriter, 50);
+    }
   }
 
   componentDidMount () {
     this.runPolling();   
   }  
+
+  onTypingFinish = () => {
+    this.setState({
+      showVideo: true
+    })
+
+    setTimeout(() => {
+      this.refVideo1.current.play()                         
+    }, 2000);
+  }
 
   render () {
     return (
@@ -67,21 +79,27 @@ class Reader extends Component {
           <div className={classes.FlexRow}>
             <div>
               <div><img src={BrandLogo} alt="Logo" /></div>
-              <div>{!this.state.loading ? this.state.messages.message : null}</div>
+ 
+              <div className={classes.Message}>
+                {
+                  !this.state.loading ?
+                  <Typist onTypingDone={this.onTypingFinish}>
+                    {this.state.messages.message}
+                  </Typist>
+                  : null
+                }
+              </div>
               <div><img className={classes.Stamp} src={MumbaiPostage} alt="Mumbai Postage" /></div>
             </div>
           </div>
           <div className={classes.FlexColumn}>
             <div><img className={classes.Marvel} src={Marvels} alt="Marvels" /></div>
-            <div>
-              {
-              this.state.showVideo ?
-                <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4 "}
-                  autoplay={'autoplay'}
-                  ref={this.refVideo1}
-                  onVideoEnded={this.onVideoEnded} />
-                : null
-              } </div>
+            <div className={this.state.showVideo ? classes.ShowVideo: classes.HideVideo}>
+              <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4 "}
+                autoplay={'autoplay'}
+                ref={this.refVideo1}
+                onVideoEnded={this.onVideoEnded} />
+              </div>
           </div>
         </div>       
       </div>

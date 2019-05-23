@@ -22,12 +22,15 @@
   flex-direction: row;
   display: flex;
   justify-content: space-between;
+  width: 50%;
+  height: auto;
 }
 
 .FlexColumn {
   flex-direction: column;
   display: flex;
   justify-content: space-between;
+  width: 50%;
 }
 
 .Content div:not([class*="flex"]) {
@@ -54,3 +57,22 @@ video {
   margin: 20px, auto;
 }
 
+
+.Message
+{
+
+  font-family: cursive;
+  font-size: 22px;
+  line-height: 50px;
+  resize: none;
+  width: 90%;
+  min-height: 400px
+}
+
+.ShowVideo {
+  opacity: 1;
+}
+
+.HideVideo {
+  opacity: 0;
+}

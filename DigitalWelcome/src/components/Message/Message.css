@@ -15,4 +15,5 @@
   
   -webkit-background-size:  100% 50px;
   background-size: 100% 50px;  
+  min-height: 200px
 }
