@@ -8,7 +8,6 @@ const video = React.forwardRef((props, ref) => (
         crossOrigin
         onEnded={props.onVideoEnded}
         onLoadedData={props.onVideoLoaded}
-        autoPlay={props.autoplay}
         ref={ref}
   />
 ));

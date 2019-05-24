@@ -69,7 +69,7 @@ class Reader extends Component {
 
     setTimeout(() => {
       this.refVideo1.current.play()                         
-    }, 2000);
+    }, 5000);
   }
 
   render () {
@@ -99,7 +99,6 @@ class Reader extends Component {
             <div className={classes.half}>
             <div className={this.state.showVideo ? classes.ShowVideo: classes.HideVideo}>
             <Video src={"http://52.32.34.54:8081/0wrIRgCm.mp4 "}
-              autoplay={'autoplay'}
               ref={this.refVideo1}
               onVideoEnded={this.onVideoEnded} />
             </div>
