@@ -1,0 +1,56 @@
+
+.messege {
+  background: url(../../assets/images/iPad-notebook.svg) center top no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+  max-width: 920px;
+  position: relative;
+}
+
+.rmg_logo {
+  background: url(../../assets/images/Logo.svg) no-repeat;
+  width: 100%;
+  min-height: 113px;
+  display: inline-block;    
+  background-position: center center;  
+  margin-top: 16%;
+}
+
+.btn_wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.welcome_text {
+  margin: 0 18% 0 25%;
+}
+
+.welcome_text textarea {
+  background: url(../../assets/images/notepad-ruler.svg) no-repeat;
+  min-height: 548px;
+  width: 100%;
+  display: inline-block;    
+  background-position: center center;  
+  margin-top: 12%;
+  border: none;
+  font-size: 32px;
+  line-height: 2.5em;
+}
+
+.welcome_text textarea:focus,
+.welcome_text textarea:hover {
+  outline: none;
+}
+
+.submit_btn {
+  background-color: #2a64a7;
+  color: white;
+  padding: 12px 27px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 4px;
+  border: none;
+  margin: 3% 0 16%;
+  cursor: pointer;
+}
